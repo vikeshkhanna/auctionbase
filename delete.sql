@@ -1,0 +1,5 @@
+DELETE FROM User;
+DELETE FROM Item;
+DELETE FROM Bid;
+DELETE FROM ItemCategory;
+
