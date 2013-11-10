@@ -205,7 +205,7 @@ def parseItems(dom):
 		props = []
 		props.append(itemElement.attributes["ItemID"].value)
 		props.append(pcdata(itemElement.getElementsByTagName("Name")[0]))
-		props.append(pcdata(itemElement.getElementsByTagName("Currently")[0]))
+		props.append(transformDollar(pcdata(itemElement.getElementsByTagName("Currently")[0])))
 		props.append(pcdata(itemElement.getElementsByTagName("Number_of_Bids")[0]))
 		props.append(transformDollar(pcdata(itemElement.getElementsByTagName("First_Bid")[0])))
 		
