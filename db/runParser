@@ -1,0 +1,33 @@
+#! /bin/bash
+schema=("User" "Item" "Bid" "ItemCategory")
+
+for i in "${schema[@]}"
+do
+	rm "$i.dat" 2>/dev/null
+	touch "$i.dat"
+done
+
+# DONT USE trailing slash for root path
+# ROOT_PATH="debug"
+ROOT_PATH='/usr/class/cs145/project/ebay_data'
+XML_PATH="$ROOT_PATH/*.xml"
+
+for file in $XML_PATH
+do
+	for relation in "${schema[@]}"
+	do
+		echo "Processing $file for schema: $relation"
+		python parser.py $file -class $relation >> "$relation.dat"
+	done	
+done
+
+for relation in "${schema[@]}"
+do
+	orig="$relation.dat"
+	temp="$relation.dat.temp"
+
+	cat "$orig" | sort | uniq > "$temp"
+	cat "$temp" > "$orig"
+	rm "$temp"
+done
+

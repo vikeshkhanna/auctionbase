@@ -1,0 +1,21 @@
+(K) Primary Key constraints
+1. Every Item should have a unique ItemID
+2. Every User should have a unique UserID
+3. A user can bid on a particular item multiple times but not at the same time
+ 
+(R) Referential integrity constraints - 
+1. Every UserID in Bid should correspond to an actual user in the User table
+2. Every ItemID in Bid should correspond to an actual item in the Item table
+3. Every ItemID in the ItemCategory table should correspond to an actual item in Item table 
+4. Every UserID in the Item table (seller) should correspond to an actual user in the User table
+
+(C) Check constraints
+1. The start time of aan auction should always be less than the end time.
+2. Buy_Price of an item should be greater than First_bid or NULL
+3. First_bid should be positive
+
+(T) Triggers-
+1. Number of bids for an item should always be the same as the actual number of bids in the Bid table. (Insert and Delete triggers)
+2. Currently should always be equal to the amount of the highest bid or first_bid if no bid is present. (Insert, Delete and update triggers)
+3. Amount of a bid should be greater than or equal to the First_bid. (Insert and Update Triggers)
+4. The Time of a bid must lie between the start time and end time of the auction. (Insert trigger)
