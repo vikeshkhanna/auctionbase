@@ -1,0 +1,35 @@
+.header-search-box
+{
+	width:700px;
+}
+
+.navbar-nav>li>a.header:hover
+{
+	color:#CA241F;
+}
+
+.nav-lower
+{
+	background-color:rgba(0,0,0,0.2);
+	color:white;
+}
+
+.item-box
+{
+	min-width:150px;
+	min-height:150px;
+}
+
+.item-box img
+{
+	width:150px;
+	height:150px;
+}
+
+.item-box img.profile-pic
+{
+	width:50px;
+	height:50px;
+}
+
+
