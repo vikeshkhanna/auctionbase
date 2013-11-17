@@ -1,13 +1,13 @@
 /* Carousel base class */
 .carousel {
-  height: 500px;
+  height: 550px;
   margin-bottom: 60px;
   box-shadow: 1px 4px 8px #888888;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  height: 500px;
+  height: 550px;
   background-color: #777;
 }
 .carousel-inner > .item > img {
@@ -23,5 +23,8 @@
 {
 	z-index: 10;
 	background-color:rgba(0,0,0,0.8);
+	max-width:450px;
+	margin-left:auto;
+	margin-right:auto;
 }
 

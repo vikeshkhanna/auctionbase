@@ -7,14 +7,21 @@
 	 	 <link href="assets/css/main.css" rel="stylesheet">
 		 <link href="assets/css/bootstrap-custom.cs" rel="stylesheet">
 		 <link href="assets/css/carousel.css" rel="stylesheet">
+		 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="assets/masonry/masonry.pkgd.min.js"></script>
 
 		<script>
 			$(document).ready(function(){
 				$('.carousel').carousel();	
+
+				$('#recent-auctions').masonry({ 
+					columnWidth:200,
+					itemSelector:".pin"
+				});
 			})
 		</script>
 	</head>
@@ -68,6 +75,7 @@
         <li data-target="#home-carousel" data-slide-to="0" class="active"></li>
         <li data-target="#home-carousel" data-slide-to="1"></li>
         <li data-target="#home-carousel" data-slide-to="2"></li>
+        <li data-target="#home-carousel" data-slide-to="3"></li>
       </ol>
       <div class="carousel-inner">
         <div class="item active">
@@ -80,6 +88,20 @@
             </div>
           </div>
         </div>
+
+	<div class="item">
+          <img src="assets/img/sean.jpg" alt="Led Zeppelin">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Going down now!</h1>
+              <p>It's a celebration day. We've got <strong>93</strong> music items on sale.</p>
+              <p><a class="btn btn-danger" href="#" role="button">Browse Men's apparel</a></p>
+            </div>
+          </div>
+	</div>
+
+
+
         <div class="item">
           <img src="assets/img/batman.jpg" alt="Wines">
           <div class="container">
@@ -90,13 +112,14 @@
             </div>
           </div>
         </div>
-        <div class="item">
-          <img src="assets/img/zepp.jpg" alt="Led Zeppelin">
+
+	<div class="item">
+          <img src="assets/img/gucci.jpg" alt="Led Zeppelin">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Going down now!</h1>
-              <p>It's a celebration day. We've got <strong>93</strong> music items on sale.</p>
-              <p><a class="btn btn-danger" href="#" role="button">Browse Music</a></p>
+              <h1>It is the best of times!</h1>
+              <p>Keep the time with the latest timepieces on sale at AuctionBase.</p>
+              <p><a class="btn btn-danger" href="#" role="button">Browse Others</a></p>
             </div>
           </div>
         </div>
@@ -105,23 +128,46 @@
       <a class="right carousel-control" href="#home-carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
     </div><!-- /.carousel -->
 	
-	<div class="container">
-		<!--Bids-->
-		<div class="row">
-			<div class="col-md-1">
-				<div class="thumbnail item-box">
-				      <img src="assets/img/zepp.jpg" alt="..." />
-				      <hr />
-				      <img class="profile-pic" src="assets/img/zepp.jpg" />
+	<div class="container" id="recent-auctions">
+		<!--auctions-->
+		<div class="thumbnail pin">
+		      <img src="assets/img/zepp.jpg" alt="..." />
+			<div class="pin-status">Open</div>
+			<div class="pin-container">
+				<div class="pin-stats">
+					<p class="name">Lorem Ipsum</p>
+					<ul>
+						<li><span class="glyphicon glyphicon-bullhorn"></span> 42</li>
+						<li><i class="icon-heart" ></i> 3</li>
+					</ul>
 				</div>
+			      <a class="pin-user">
+				 <img  src="assets/img/zepp.jpg" />
+				 <span>Vikesh Khanna</span>
+				 <span> </span>
+			      </a>
+			</div>
+		</div>
+
+		<div class="thumbnail pin">
+		      <img src="assets/img/zepp.jpg" alt="..." />
+			<div class="pin-status">Open</div>
+			<div class="pin-container">
+				<div class="pin-stats">
+					<a href="#" class="name">Lorem Ipsum</a>
+					<ul>
+						<li><span class="glyphicon glyphicon-bullhorn"></span> 42</li>
+						<li><i class="icon-heart" ></i> 3</li>
+					</ul>
+				</div>
+				 <a class="pin-user">
+					<img  src="assets/img/zepp.jpg" />
+					<span>Vikesh Khanna</span>
+					<span> </span>
+				 </a>
 			</div>
 		</div>
 	</div>
-
-	
-
-	<!--bids-->
-
 
 	</body>
 </html>

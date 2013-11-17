@@ -1,3 +1,8 @@
+body
+{
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
 .header-search-box
 {
 	width:700px;
@@ -14,22 +19,94 @@
 	color:white;
 }
 
-.item-box
+.pin
 {
-	min-width:150px;
+	width:150px;
 	min-height:150px;
+	border: 1px solid grey;
+	box-shadow:1px 1px 6px #888888;
+	font-size:12px;
+	padding:0px;
+	position:relative;
 }
 
-.item-box img
+.pin img
 {
 	width:150px;
 	height:150px;
 }
 
-.item-box img.profile-pic
+
+.pin ul
 {
-	width:50px;
-	height:50px;
+	list-style:none;
+	padding:0;
+	margin:0;
 }
 
+.pin ul li
+{
+	display:inline-block;	
+	padding:5px 5px 5px 0px;
+	font-size:12px;
+}
 
+.pin-stats p
+{
+	margin:0px;
+} 
+
+.pin-stats
+{
+	padding:10px 5px 5px 10px;
+}
+
+.pin-user
+{
+	padding:10px 5px 5px 10px;
+	border-top:1px solid #AAA;
+	overflow:hidden;
+	display:block;
+	cursor:pointer;
+}
+
+.pin-status
+{
+	position: absolute;
+	top: 0;
+	background-color: rgba(2, 151, 2, 0.8);
+	width: 149px;
+	text-align: center;
+	border-radius: 2px;
+	color: white;
+	height: 20px;
+}
+
+.pin-user:hover
+{
+	background-color:#CCC;
+	text-decoration:none;
+}
+
+.pin-user img
+{
+	width:25px;
+	height:25px;
+	float:left;
+	margin-right:5px;
+	border-radius:2px;
+}
+
+.pin-user span
+{
+	display:block;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	color:#555;
+}
+
+.icon-heart
+{
+	color:maroon;
+}
