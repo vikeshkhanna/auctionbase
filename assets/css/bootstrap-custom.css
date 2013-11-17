@@ -3,6 +3,12 @@
 	height:60px;
 }
 
+.panel-custom>.panel-heading
+{
+	background-color:rgba(0,0,0,0.9);
+	color:white;
+}
+
 
 
 	

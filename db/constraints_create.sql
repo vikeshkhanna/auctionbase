@@ -5,6 +5,8 @@ CREATE TABLE User(
 	Rating number
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS User_UserID on User(UserID);
+
 CREATE TABLE Item(
 	ItemID number PRIMARY KEY, 
 	Name text NOT NULL, 
@@ -22,6 +24,8 @@ CREATE TABLE Item(
 	CONSTRAINT ITEM_FIRST_BID_POSITIVE CHECK(First_bid > 0)
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS Item_ItemID on Item(ItemID);
+
 CREATE TABLE Bid(
 	UserID text, 
 	ItemID number, 
@@ -32,11 +36,16 @@ CREATE TABLE Bid(
 	CONSTRAINT BID_FK_ItemID FOREIGN KEY(ItemID) REFERENCES Item(ItemID) ON DELETE SET NULL
 );
 
+CREATE INDEX IF NOT EXISTS Bid_UserID on Bid(UserID);
+CREATE INDEX IF NOT EXISTS Bid_ItemID on Bid(ItemID);
+
 CREATE TABLE ItemCategory(
 	ItemID number, 
 	Category text NOT NULL,
 	CONSTRAINT ItemCategory_FK_ItemID FOREIGN KEY(ItemID) REFERENCES Item(ItemID) ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS ItemCategory_ItemID on ItemCategory(ItemID);
 
 CREATE TABLE Likes(
 	UserID text,
@@ -46,4 +55,5 @@ CREATE TABLE Likes(
 	UNIQUE(UserID, ItemID)
 );
 
-
+CREATE INDEX IF NOT EXISTS Likes_UserID on Likes(UserID);
+CREATE INDEX IF NOT EXISTS Likes_ItemID on Likes(ItemID);

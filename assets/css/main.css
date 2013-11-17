@@ -56,6 +56,15 @@ body
 	margin:0px;
 } 
 
+.bid-stats
+{
+	border-top:1px solid #AAA;
+	padding:5px;
+	text-align:center;
+	font-weight:bold;
+	font-size:16px;
+}
+
 .pin-stats
 {
 	padding:10px 5px 5px 10px;
@@ -74,12 +83,21 @@ body
 {
 	position: absolute;
 	top: 0;
-	background-color: rgba(2, 151, 2, 0.8);
 	width: 149px;
 	text-align: center;
 	border-radius: 2px;
 	color: white;
 	height: 20px;
+}
+
+.pin-status.open
+{
+	background-color: rgba(2, 151, 2, 0.8);
+}
+
+.pin-status.closed
+{
+	background-color: rgba(151, 2, 2, 0.8);
 }
 
 .pin-user:hover
@@ -93,7 +111,7 @@ body
 	width:25px;
 	height:25px;
 	float:left;
-	margin-right:5px;
+	margin-right:10px;
 	border-radius:2px;
 }
 

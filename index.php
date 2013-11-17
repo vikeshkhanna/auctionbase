@@ -1,3 +1,6 @@
+<?php include(dirname(__FILE__)."/include/sqlitedb.php"); ?>
+<?php include(dirname(__FILE__)."/include/utils.php"); ?>
+
 <html>
 	<head>
 		<title>Welcome to AuctionBase!</title>
@@ -5,7 +8,7 @@
 		 <!-- Bootstrap core CSS -->
 		 <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	 	 <link href="assets/css/main.css" rel="stylesheet">
-		 <link href="assets/css/bootstrap-custom.cs" rel="stylesheet">
+		 <link href="assets/css/bootstrap-custom.css" rel="stylesheet">
 		 <link href="assets/css/carousel.css" rel="stylesheet">
 		 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
@@ -19,54 +22,19 @@
 				$('.carousel').carousel();	
 
 				$('#recent-auctions').masonry({ 
-					columnWidth:200,
+					columnWidth:180,
 					itemSelector:".pin"
 				});
 			})
 		</script>
+
+		<style>
+		</style>
 	</head>
 
 	<body>
-	 <!-- Fixed navbar -->
-	    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:rgba(0,0,0,0.8);">
-	      <div class="container" style="padding:5px 0px 0px 0px;">
-		<div class="header navbar-header">
-		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		    <span class="sr-only">Toggle navigation</span>
-		    <span class="icon-bar"></span>
-		  </button>
-		  <a class="navbar-brand" href="#">Auction Base</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav" style="margin:10px">
-			  <form class="input-group header-search-box">
-			      <input type="text" class="form-control" placeholder="Search items">
-			      <span class="input-group-btn">
-				<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span> Search</button>
-			      </span>
-			    </form><!-- /input-group -->	
-			</ul>  
-		  <ul class="nav navbar-nav navbar-right">
-		    <li><a class="header" href="../navbar/">Sell item</a></li>
-		    <li><a class="header" href="../navbar/">Contact us</a></li>
-		    <li><a class="header" href="/">About</a></li>
-		  </ul>
-		</div><!--/.nav-collapse -->
-	      </div>
-		<div class="navbar-collapse collapse nav-lower">
-		  <div class="container">
-			  <ul class="nav navbar-nav">
-				<li><a href="categories.php/">Electronics</a></li>
-				<li><a href="categories.php/">Men</a></li>
-				<li><a href="categories.php/">Women</a></li>
-				<li><a href="categories.php/">Toys</a></li>
-				<li><a href="categories.php/">Music</a></li>
-				<li><a href="categories.php/">Something</a></li>
-			  </ul>
-		  </div>
-		</div>
-	    </div>
-	
+	<!--Header-->
+	<?php include(dirname(__FILE__)."/include/header.php"); ?>
 	<!-- Carousel
 	    ================================================== -->
     <div id="home-carousel" class="carousel slide" data-ride="carousel">
@@ -128,46 +96,49 @@
       <a class="right carousel-control" href="#home-carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
     </div><!-- /.carousel -->
 	
-	<div class="container" id="recent-auctions">
-		<!--auctions-->
-		<div class="thumbnail pin">
-		      <img src="assets/img/zepp.jpg" alt="..." />
-			<div class="pin-status">Open</div>
-			<div class="pin-container">
-				<div class="pin-stats">
-					<p class="name">Lorem Ipsum</p>
-					<ul>
-						<li><span class="glyphicon glyphicon-bullhorn"></span> 42</li>
-						<li><i class="icon-heart" ></i> 3</li>
-					</ul>
-				</div>
-			      <a class="pin-user">
-				 <img  src="assets/img/zepp.jpg" />
-				 <span>Vikesh Khanna</span>
-				 <span> </span>
-			      </a>
-			</div>
-		</div>
+	<!--Most recent auctions-->
+	<div class="container">
 
-		<div class="thumbnail pin">
-		      <img src="assets/img/zepp.jpg" alt="..." />
-			<div class="pin-status">Open</div>
-			<div class="pin-container">
-				<div class="pin-stats">
-					<a href="#" class="name">Lorem Ipsum</a>
-					<ul>
-						<li><span class="glyphicon glyphicon-bullhorn"></span> 42</li>
-						<li><i class="icon-heart" ></i> 3</li>
-					</ul>
+		<div class="row">
+			<!--First column-->
+			<div class="col-md-9" style="width:70%">
+				<div class="panel panel-danger panel-custom recent-auctions-panel">
+					<div class="panel-heading">
+						<strong>Recent auctions</strong>
+					</div>
+
+				<!--recent auctions-->
+					<div id="recent-auctions" class="panel-body">
+					<?php 
+						$db->beginTransaction();
+						$com1 = "SELECT * from item order by started limit 8;";
+						$result = $db->prepare($com1);
+						$result->execute();
+						$items = $result->fetchAll();
+						echo build_pin($items, $db);
+					?>
+		
+					</div><!--recent-->
+				</div><!--panel-->
+			</div><!--col-->
+			
+			<!--Second column-->
+			<div class="col-md-3">
+				<div class="panel panel-success recent-auctions-panel">
+					<div class="panel-heading">
+						<strong>Start Selling</strong>
+					</div>
+
+					<div class="panel-body">
+
+					</div>
+
 				</div>
-				 <a class="pin-user">
-					<img  src="assets/img/zepp.jpg" />
-					<span>Vikesh Khanna</span>
-					<span> </span>
-				 </a>
 			</div>
-		</div>
-	</div>
+		</div><!--row-->
+	</div> <!--container-->
+
+	<?php include("include/footer.php"); ?>
 
 	</body>
 </html>
