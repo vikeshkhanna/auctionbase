@@ -139,3 +139,23 @@ body
 {
 	width:auto;
 }
+
+h1.extra-bold
+{
+	padding:0px;
+	margin:0px;
+	font-size:32px;
+	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+}
+
+.megatron
+{
+	padding:30px;
+	background-color:rgba(1,1,1,0.9);
+	color:white;
+}
+
+.megatron .content
+{
+	padding:15px 5px 15px 0px;
+}

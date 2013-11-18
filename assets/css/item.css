@@ -4,7 +4,7 @@
 	height:200px;
 }
 
-.item h1
+.helvetica
 {
 	margin:0px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -23,7 +23,14 @@
 
 .stats-2 span
 {
-	font-size:16px;
+	font-size:14px;
 	color:#777;
 	font-weight:bold;
 }
+
+.seller img
+{
+	width:150px;
+	height:150px;
+}
+
