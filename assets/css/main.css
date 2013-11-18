@@ -128,3 +128,14 @@ body
 {
 	color:maroon;
 }
+
+.skip-header
+{
+	margin-top:180px;
+	margin-bottom:20px;
+}
+
+.auto-col
+{
+	width:auto;
+}

@@ -1,5 +1,24 @@
 <?php
 
+function get_item_image($itemid)
+{
+	$curdir = dirname(__FILE__);
+	$suffix = "metadata/items/";
+	$root = $curdir."/../".$suffix;
+	$image = $root.$itemid.".jpg";
+
+	if(!file_exists($image))
+	{
+		$image = $suffix."default.jpg";
+	}
+	else	
+	{
+		$image = $suffix.$itemid.".jpg";
+	}
+
+	return $image;
+}
+
 function build_pin($items, $db)
 {
 	$html = "";
@@ -40,20 +59,8 @@ function build_pin($items, $db)
 					$status = $ends > $now;
 					$pinStatus = ($status == 1 ? "open" : "closed");
 
-					$curdir = dirname(__FILE__);
-					$suffix = "metadata/items/";
-					$root = $curdir."../".$suffix;
-					$image = $root.$itemid.".jpg";
-					
-					if(!file_exists($image))
-					{
-						$image = $suffix."default.jpg";
-					}
-					else	
-					{
-						$image = $suffix.$itemid.".jpg";
-					}
-		
+					$image = get_item_image($itemid);
+
 					$html = $html.'<div class="thumbnail pin">
 						      <img src="'.$image.'" alt="..." />
 							<div class="pin-status '.$pinStatus.' ">'.ucfirst($pinStatus).'</div>
