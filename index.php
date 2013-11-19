@@ -22,7 +22,7 @@
 				$('.carousel').carousel();	
 
 				$('#recent-auctions').masonry({ 
-					columnWidth:180,
+					columnWidth:185,
 					itemSelector:".pin"
 				});
 			})
@@ -98,17 +98,27 @@
 	
 	<!--Most recent auctions-->
 	<div class="container">
-
 		<div class="row">
 			<!--First column-->
-			<div class="col-md-9" style="width:70%">
-				<div class="panel panel-danger panel-custom recent-auctions-panel">
-					<div class="panel-heading">
-						<strong>Recent auctions</strong>
+			<div class="col-md-8">
+				<!--Recent Bidders-->
+				<div class="row heading-hr heading-hr-mild">
+					<div class="col-md-1">
+						<hr />
 					</div>
 
-				<!--recent auctions-->
-					<div id="recent-auctions" class="panel-body">
+					<div class="col-md-3 auto-col">
+						<h1>Recent Auctions</h1>	
+					</div>
+				
+					<div class="col-md-12">
+						<hr />
+					</div>
+				</div>
+
+				<div class="recent-auctions-panel">
+					<!--recent auctions-->
+					<div id="recent-auctions">
 					<?php 
 						$db = get_db_handle();
 						$db->beginTransaction();
@@ -126,13 +136,18 @@
 			
 			<!--Second column-->
 			<div class="col-md-3">
-				<div class="panel panel-success recent-auctions-panel">
-					<div class="panel-heading">
-						<strong>Start Selling</strong>
-					</div>
+					<div class="row heading-hr heading-hr-mild">
+						<div class="col-md-2">
+							<hr />
+						</div>
 
-					<div class="panel-body">
-
+						<div class="col-md-3 auto-col">
+							<h1>Start Selling</h1>	
+						</div>
+					
+						<div class="col-md-12">
+							<hr />
+						</div>
 					</div>
 
 				</div>

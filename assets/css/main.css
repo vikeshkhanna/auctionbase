@@ -1,6 +1,7 @@
 body
 {
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	background-color:#FEFEFE;
 }
 
 .header-search-box
@@ -51,6 +52,13 @@ body
 	font-size:12px;
 }
 
+.pin-stats .name
+{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+}
+
 .pin-stats p
 {
 	margin:0px;
@@ -64,6 +72,13 @@ body
 	font-weight:bold;
 	font-size:16px;
 }
+
+.bid-stats.mild
+{
+	font-weight:normal;	
+	font-size:12px;
+}
+
 
 .pin-stats
 {
@@ -87,7 +102,13 @@ body
 	text-align: center;
 	border-radius: 2px;
 	color: white;
-	height: 20px;
+	background-color:rgba(0,0,0,0.9);
+	padding:4px;
+}
+
+.pin-status.heavy
+{
+	font-size:14px;
 }
 
 .pin-status.open
@@ -131,7 +152,7 @@ body
 
 .skip-header
 {
-	margin-top:180px;
+	margin-top:160px;
 	margin-bottom:20px;
 }
 
@@ -153,6 +174,7 @@ h1.extra-bold
 	padding:30px;
 	background-color:rgba(1,1,1,0.9);
 	color:white;
+	text-align:justify;
 }
 
 .megatron .content
@@ -164,10 +186,25 @@ h1.extra-bold
 {	
 	margin-top:25px;
 	padding-bottom:10px;
-
 }
 
 .heading-hr hr
 {
 	border:1px solid black;
+}
+
+.heading-hr h1
+{
+	padding:0px;
+	margin:0px;
+	font-size:32px;
+	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+}
+
+.heading-hr.heading-hr-mild h1
+{
+	padding:0px;
+	margin-top:10px;
+	font-size:18px;
+	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
 }

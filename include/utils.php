@@ -72,7 +72,7 @@ function is_auction_open($item, $time)
 	$buy_price = $item['Buy_Price'];
 	$currently = $item['Currently'];
 
-	return ($started < $time && $ends > $time && $currently < $buy_price);
+	return ($started < $time && $ends > $time && (!isset($buy_price) || $currently < $buy_price));
 }
 
 // Get the users who like an item
@@ -193,7 +193,7 @@ function build_pins($items)
 									<i class="icon-usd"></i> '.$currently.'
 								</div>
 					
-							      <a class="pin-user">
+							      <a class="pin-user" href=user.php?userid='.$seller.'>
 								 <img src="metadata/users/'.$seller.'.jpg" />
 								 <span>'.$seller.'</span>
 							      </a>
@@ -202,6 +202,70 @@ function build_pins($items)
 				}
 		$db->commit();
 		return $html;
+}
+
+
+function build_item_bid_pin($bid)
+{
+	$amount = $bid['Amount'];
+	$date = $bid['Time'];
+	$userid = $bid['UserID'];
+	$itemid = $bid['ItemID'];
+	$name = get_item($itemid);
+
+	$item_image = get_item_image($itemid);
+	$user_image = get_user_image($userid);
+
+	$html = '<div class="thumbnail pin">
+			<img src="'.$item_image.'" />
+			<div class="pin-status"><i class="icon-dollar"></i> '.$amount.'</div>
+			<div class="pin-container">
+				<div class="pin-stats"><a href="item.php?itemid='.$itemid.'">'.$name.'</a></div>
+				<div class="bid-stats mild">'.format_date($date).'</div>
+				<a class="pin-user" href="user.php?userid='.$userid.'">
+					 <img src="'.$user_image.'">
+					 <span>'.$user.'</span>
+			      </a>
+			</div>
+		</div>';
+
+	return $html;
+}
+
+function build_user_bid_pin($bid)
+{
+	$amount = $bid['Amount'];
+	$date = $bid['Time'];
+	$userid = $bid['UserID'];
+	$itemid = $bid['ItemID'];
+	$name = get_item($itemid);
+
+	$item_image = get_item_image($itemid);
+	$user_image = get_user_image($userid);
+
+	$html = '<div class="thumbnail pin">
+			<img src="'.$user_image.'" />
+			<div class="pin-status heavy"><i class="icon-dollar"></i> '.$amount.'</div>
+			<div class="pin-container">
+				<div class="pin-stats"><a href="user.php?userid='.$userid.'">'.$userid.'</a></div>
+				<div class="bid-stats mild">'.format_date($date).'</div>
+			      </a>
+			</div>
+		</div>';
+
+	return $html;
+}
+
+function build_user_bid_pins($bids)
+{
+	$html = "";
+
+	foreach($bids as $bid)
+	{
+		$html = $html.build_user_bid_pin($bid);
+	}
+	
+	return $html;
 }
 
 ?>

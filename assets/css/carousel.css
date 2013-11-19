@@ -1,7 +1,7 @@
 /* Carousel base class */
 .carousel {
   height: 550px;
-  margin-bottom: 60px;
+  margin-bottom: 35px;
   box-shadow: 1px 4px 8px #888888;
 }
 
