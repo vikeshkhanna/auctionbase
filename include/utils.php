@@ -1,11 +1,12 @@
 <?php
+/*
+@author: Vikesh Khanna
+#quick #dirty
+*/
 
-function get_item_image($itemid)
+function get_image($root, $suffix, $id)
 {
-	$curdir = dirname(__FILE__);
-	$suffix = "metadata/items/";
-	$root = $curdir."/../".$suffix;
-	$image = $root.$itemid.".jpg";
+	$image = $root.$id.".jpg";
 
 	if(!file_exists($image))
 	{
@@ -13,15 +14,154 @@ function get_item_image($itemid)
 	}
 	else	
 	{
-		$image = $suffix.$itemid.".jpg";
+		$image = $suffix.$id.".jpg";
 	}
 
 	return $image;
 }
 
-function build_pin($items, $db)
+// Get the current time from the DB
+function get_time()
+{
+	$db = get_db_handle();
+	$db->beginTransaction();
+	$comm = "SELECT now from Time";
+	$result = $db->prepare($comm);
+	$result->execute();
+	$result = $result->fetch();
+	$db->commit();
+	$db = null;
+	return $result['now'];
+}
+
+// Get the image of the item from the ID
+function get_item_image($itemid)
+{
+	$curdir = dirname(__FILE__);
+	$suffix = "metadata/items/";
+	$root = $curdir."/../".$suffix;
+	return get_image($root, $suffix, $itemid);
+}
+
+// Get the image of a user from the ID
+function get_user_image($userid)
+{
+	$curdir = dirname(__FILE__);
+	$suffix = "metadata/users/";
+	$root = $curdir."/../".$suffix;
+	return get_image($root, $suffix, $userid);
+}
+
+// Get the item object from the itemid
+function get_item($itemid)
+{
+	$db = get_db_handle();
+	$db->beginTransaction();
+	$comm = "SELECT * from item where  itemid=:itemid";
+	$result = $db->prepare($comm);
+	$result->execute(array(":itemid"=>$itemid));
+	$result = $result->fetch();
+	$db->commit();
+	return $result;
+}
+
+function is_auction_open($item, $time)
+{
+	$started = $item['Started'];
+	$ends = $item['Ends'];
+	$buy_price = $item['Buy_Price'];
+	$currently = $item['Currently'];
+
+	return ($started < $time && $ends > $time && $currently < $buy_price);
+}
+
+// Get the users who like an item
+function get_likes($itemid)
+{
+	$db = get_db_handle();
+	$db->beginTransaction();	
+
+	# Get the number of likes
+	$comLikes = "SELECT *  from likes where itemid=:itemid";
+	$result = $db->prepare($comLikes);
+	$result->execute(array(":itemid"=>$itemid));
+	$result = $result->fetchAll();
+	$db->commit();
+	$db = null;
+	return $result;
+}
+
+
+// Get the seller from the userid of the seller
+function get_seller($userid)
+{
+	$db = get_db_handle();
+	$db->beginTransaction();
+	$comm = "SELECT * FROM user WHERE userid=:userid";
+	$result = $db->prepare($comm);
+	$result->execute(array(":userid"=>$userid));
+	$user = $result->fetch();
+	$db->commit();
+	$db=null;
+	return $user;
+}
+
+function format_date($date)
+{
+	return date('d M Y H:i', strtotime($date));
+}
+
+
+// Gets the difference, date1 < date2
+function date_interval($date1, $date2)
+{
+	return  date_diff(new DateTime($date1), new DateTime($date2));
+}
+
+// Gives the str equivalent of the date difference
+function str_diff($diff)
+{		
+	$str_val = "";
+	$years = $diff->y;
+	$months = $diff->m;
+	$days = $diff->d;
+	$hours = $diff->h;
+	$minutes = $diff->i;
+
+	if($years>0)
+	{
+		return $years;
+	}	
+	else if($months>0)
+	{
+		return $months;
+	}
+	else if($days>0)
+	{
+		return $days." days, ".$hours." hours";		
+	}
+	else
+	{
+		return $hours." hours, ".$minutes." minutes";
+	}
+}
+
+function perc_diff($time, $started, $ends)
+{
+	$sstarted = strtotime($started);
+	$sends  = strtotime($ends);
+	$stime = strtotime($time);
+
+	$diff = (($stime - $sstarted)/($sends - $sstarted))*100;	
+	return $diff;
+}
+
+function build_pins($items)
 {
 	$html = "";
+	$db = get_db_handle();
+	$db->beginTransaction();
+	$time = get_time();
 
 	foreach($items as $item)
 				{
@@ -29,47 +169,24 @@ function build_pin($items, $db)
 					$itemid = $item["ItemID"];
 					$seller = $item["UserID"];
 					$ends = $item["Ends"];
-
-					# Get the number of likes
-					$comLikes = "SELECT count(*) num_likes from likes where itemid=:itemid";
-					$result = $db->prepare($comLikes);
-					$result->execute(array(":itemid"=>$itemid));
-					$result = $result->fetch();
-					$countLikes = $result["num_likes"];
-
-					# Get the number of bids
-					$comBids = "SELECT number_of_bids from item where itemid=:itemid";
-					$result = $db->prepare($comBids);
-					$result->execute(array(":itemid"=>$itemid));
-					$result = $result->fetch();
-					$countBids = $result["Number_of_Bids"];
-
-					$comCurrently = "SELECT Currently from item where itemid=:itemid";
-					$result = $db->prepare($comCurrently);
-					$result->execute(array(":itemid"=>$itemid));
-					$result = $result->fetch();
-					$currently = $result["Currently"];
+					$started = $item["Started"];
+					$number_of_bids = $item['Number_of_Bids'];
+					$currently = $item['Currently'];
 					
-					$comNow = "SELECT now from time";
-					$result = $db->prepare($comNow);
-					$result->execute();
-					$result = $result->fetch();
-					$now = $result["now"];
-
-					$status = $ends > $now;
-					$pinStatus = ($status == 1 ? "open" : "closed");
-
+					# Get the number of bids
+					$pinStatus = is_auction_open($item, $time) ? "open" : "closed";
 					$image = get_item_image($itemid);
+					$countLikes = count(get_likes($itemid));
 
 					$html = $html.'<div class="thumbnail pin">
 						      <img src="'.$image.'" alt="..." />
 							<div class="pin-status '.$pinStatus.' ">'.ucfirst($pinStatus).'</div>
 							<div class="pin-container">
 								<div class="pin-stats">
-									<a href="#" class="name">'.$name.'</a>
+									<a href="item.php?itemid='.$itemid.'" class="name">'.$name.'</a>
 									<ul>
 										<li><i class="icon-heart" ></i> '.$countLikes.'</li>
-										<li><span class="glyphicon glyphicon-bullhorn"></span> '.$countBids.' bids</li>
+										<li><span class="glyphicon glyphicon-bullhorn"></span> '.$number_of_bids.' bids</li>
 									</ul>
 								</div>
 								<div class="bid-stats">
@@ -83,7 +200,7 @@ function build_pin($items, $db)
 							</div>
 						</div>';
 				}
-
+		$db->commit();
 		return $html;
 }
 

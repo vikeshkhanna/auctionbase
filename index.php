@@ -110,12 +110,14 @@
 				<!--recent auctions-->
 					<div id="recent-auctions" class="panel-body">
 					<?php 
+						$db = get_db_handle();
 						$db->beginTransaction();
-						$com1 = "SELECT * from item order by started limit 8;";
+						$com1 = "SELECT *, (select now from time) now from item order by julianday(now) - julianday(started) limit 8;";
 						$result = $db->prepare($com1);
 						$result->execute();
 						$items = $result->fetchAll();
-						echo build_pin($items, $db);
+						$db->commit();
+						echo build_pins($items);
 					?>
 		
 					</div><!--recent-->

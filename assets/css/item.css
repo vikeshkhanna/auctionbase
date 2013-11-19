@@ -1,13 +1,33 @@
-.item .image
+.prod-image img
 {
-	width:200px;
-	height:200px;
+	width:180px;
+	height:180px;
 }
 
-.helvetica
+.item-name-container
+{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.item-name-container h1
 {
 	margin:0px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:26px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.item-name-container span
+{
+	font-size:12px;
+	color:#555;
+}
+
+.item-name-container hr
+{
+	margin-top:10px;
+	margin-bottom:20px;	
 }
 
  .status
@@ -17,7 +37,6 @@
 
 .stats-2
 {
-	padding-top:15px;
 	font-size:40px;
 }
 
@@ -34,3 +53,41 @@
 	height:150px;
 }
 
+.seller .content .inner
+{
+	margin-top:15px;
+}
+
+.winner h1
+{
+	color:#777;
+	font-size:28px;
+	margin:0;
+	padding:0;
+}
+
+.auction-status
+{
+	position: absolute;
+	top: 0;
+	color: white;
+	width: 180px;
+	text-align: center;
+	padding: 5px;
+}
+
+.auction-status.closed
+{
+	background-color: rgba(151, 2, 2, 0.8);
+}
+
+.auction-status.open
+{
+	background-color: rgba(2, 151, 2, 0.8);
+}
+
+.date
+{
+	font-size:12px;
+	color:#777;
+}

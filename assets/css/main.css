@@ -159,3 +159,15 @@ h1.extra-bold
 {
 	padding:15px 5px 15px 0px;
 }
+
+.heading-hr
+{	
+	margin-top:25px;
+	padding-bottom:10px;
+
+}
+
+.heading-hr hr
+{
+	border:1px solid black;
+}
