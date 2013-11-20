@@ -65,6 +65,19 @@ function get_item($itemid)
 	return $result;
 }
 
+// Get the category of an item
+function get_categories($itemid)
+{
+	$db = get_db_handle();
+	$db->beginTransaction();
+	$comm = "SELECT * from itemcategory where  itemid=:itemid";
+	$result = $db->prepare($comm);
+	$result->execute(array(":itemid"=>$itemid));
+	$result = $result->fetch();
+	$db->commit();
+	return $result;
+}
+
 function is_auction_open($item, $time)
 {
 	$started = $item['Started'];

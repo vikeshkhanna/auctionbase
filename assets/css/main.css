@@ -52,11 +52,12 @@ body
 	font-size:12px;
 }
 
-.pin-stats .name
+.pin-stats
 {
-	text-overflow: ellipsis;
-	overflow: hidden;
 	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #555;
 }
 
 .pin-stats p
@@ -152,13 +153,19 @@ body
 
 .skip-header
 {
-	margin-top:160px;
+	margin-top:150px;
 	margin-bottom:20px;
 }
 
 .auto-col
 {
 	width:auto;
+}
+
+.tight-col
+{
+	padding-left:8px;
+	padding-right:8px;
 }
 
 h1.extra-bold
