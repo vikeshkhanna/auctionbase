@@ -93,7 +93,7 @@ function get_likes($itemid)
 
 
 // Get the seller from the userid of the seller
-function get_seller($userid)
+function get_user($userid)
 {
 	$db = get_db_handle();
 	$db->beginTransaction();

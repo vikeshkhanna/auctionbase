@@ -33,7 +33,8 @@ CREATE TABLE Bid(
 	Amount number NOT NULL, 
 	CONSTRAINT BID_PK PRIMARY KEY(UserID, ItemID, Time), 
 	CONSTRAINT BID_FK_UserID FOREIGN KEY(UserID) REFERENCES User(UserID) ON DELETE CASCADE,
-	CONSTRAINT BID_FK_ItemID FOREIGN KEY(ItemID) REFERENCES Item(ItemID) ON DELETE SET NULL
+	CONSTRAINT BID_FK_ItemID FOREIGN KEY(ItemID) REFERENCES Item(ItemID) ON DELETE SET NULL,
+	CONSTRAINT BID_AMOUNT_BID_POSITIVE CHECK(Amount!='')
 );
 
 CREATE INDEX IF NOT EXISTS Bid_UserID on Bid(UserID);
@@ -57,7 +58,6 @@ CREATE TABLE Likes(
 
 CREATE INDEX IF NOT EXISTS Likes_UserID on Likes(UserID);
 CREATE INDEX IF NOT EXISTS Likes_ItemID on Likes(ItemID);
-
 PRAGMA foreign_keys = ON;
 
 drop trigger if exists T_NUMBER_OF_BIDS_INSERT;
@@ -76,6 +76,17 @@ begin
 Update Item set Number_of_bids=Number_of_bids-1 WHERE Item.ItemId=Old.ItemID;
 end;
 
+/*
+SELECT ItemID from Item WHERE number_of_bids != (SELECT Count(*) From Bid where ItemID=Item.ItemID);
+
+-- Insert dummy values 
+INSERT INTO User values('cs145dummyuser', 'US', 'CA', '1');
+INSERT INTO Item Values(1, 'The shocking miss Caro Emerald', 1, 0, 100, 200, 'cs145dummyuser', date('now', '-3 months'), date('now'), 'Very shocking');
+INSERT INTO Bid Values('cs145dummyuser', 1, date('now', '-1 months'), 150); 
+
+-- Remove dummy values - ON DELETE Cascade will handle everything
+DELETE FROM User WHERE UserID='cs145dummyuser';
+*/
 PRAGMA foreign_keys = ON;
 
 drop trigger if exists T_CURRENTLY_INSERT;
@@ -107,6 +118,18 @@ Update Item set Currently = First_Bid where ItemID = Old.ItemID;
 Update Item set Currently = (Select max(Amount) From Bid where ItemID = Old.ItemID) WHERE ItemID=Old.ItemID;
 end;
 
+
+/*
+SELECT ItemID from Item WHERE currently != first_bid and currently!= (Select max(amount) from bid where itemid = Item.ItemID);
+
+-- Insert dummy values 
+INSERT INTO User values('cs145dummyuser', 'US', 'CA', '1');
+INSERT INTO Item Values(1, 'The shocking miss Caro Emerald', 100, 0, 100, 200, 'cs145dummyuser', date('now', '-3 months'), date('now'), 'Very shocking');
+INSERT INTO Bid Values('cs145dummyuser', 1, date('now', '-1 months'), 150); 
+
+-- Remove dummy values - ON DELETE Cascade will handle everything
+DELETE FROM User WHERE UserID='cs145dummyuser';
+*/
 PRAGMA foreign_keys = ON;
 
 -- Raise an error if a new bid has amount less than currently
@@ -115,7 +138,7 @@ drop trigger if exists T_AMOUNT_INSERT;
 create trigger T_AMOUNT_INSERT
 after INSERT on Bid
 for each row
-when New.Amount <= (select currently from Item where Item.ItemID = New.ItemID)
+when New.Amount < (select currently from Item where Item.ItemID = New.ItemID)
 begin
 select raise(rollback, 'Bid amount must be greater than the current bid.');
 end;
@@ -130,3 +153,8 @@ begin
 select raise(rollback, 'This auction is closed.');
 end;
 
+drop table if exists Time;
+
+create table Time(now datetime);
+insert into Time values("2001-12-20 00:00:01");
+select now from Time;

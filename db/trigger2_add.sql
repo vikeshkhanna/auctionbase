@@ -29,6 +29,8 @@ Update Item set Currently = First_Bid where ItemID = Old.ItemID;
 Update Item set Currently = (Select max(Amount) From Bid where ItemID = Old.ItemID) WHERE ItemID=Old.ItemID;
 end;
 
+
+/*
 SELECT ItemID from Item WHERE currently != first_bid and currently!= (Select max(amount) from bid where itemid = Item.ItemID);
 
 -- Insert dummy values 
@@ -38,3 +40,4 @@ INSERT INTO Bid Values('cs145dummyuser', 1, date('now', '-1 months'), 150);
 
 -- Remove dummy values - ON DELETE Cascade will handle everything
 DELETE FROM User WHERE UserID='cs145dummyuser';
+*/

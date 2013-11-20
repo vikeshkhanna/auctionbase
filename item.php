@@ -17,7 +17,7 @@
 				$name = $item['Name'];
 				$description = $item['Description'];
 				$seller_id = $item['UserID'];
-				$seller = get_seller($seller_id);
+				$seller = get_user($seller_id);
 				$seller_rating = $seller['Rating'];
 				$number_of_bids = $item['Number_of_Bids'];
 				$currently = $item['Currently'];
@@ -39,7 +39,7 @@
 
 				// Slider variables
 				$slider_min = $currently + 0.1;
-				$slider_max = isset($buy_price) ? $buy_price : $slider_min + 100;
+				$slider_max = isset($buy_price) ? $buy_price : $slider_min + 50;
 			}
 ?>
 
@@ -64,37 +64,158 @@
 		<script src="assets/slider/js/bootstrap-slider.js"></script>
 
 		<script>
+
+			var slider_min = <?php echo $slider_min; ?>;
+			var slider_max =  <?php echo $slider_max; ?>; 
+			var currently = <?php echo $currently; ?>;
+			var buy_price = <?php echo (isset($buy_price) ? $buy_price : -1); ?>;
+			var itemid = <?php echo $itemid ?>;
+
+			function get_amount_error()
+			{
+				var msg = "You must bid at least $" + slider_min;
+
+				if(buy_price > -1)
+				{
+					msg +=  " and no more than $" + buy_price;
+				}
+
+				return msg;
+			}
+	
+			function set_amount_state()
+			{
+				var val = $("#bid-amount").val();
+				var amount_group = $("#amount-group");
+				var help_elem = $("#help-bid-amount");
+				var bid_button = $("#bid-button");
+
+				if(val<=currently || (buy_price > -1 && val > buy_price))
+				{
+					amount_group.removeClass("has-success");
+					amount_group.addClass("has-error");
+					help_elem.html(get_amount_error());
+					bid_button.prop('disabled', true);
+				}
+				else
+				{
+					amount_group.removeClass("has-error");
+					amount_group.addClass("has-success");
+					bid_button.prop('disabled', false);
+					help_elem.html("");
+				}
+			}
+
+			function user_status(userid, callback)
+			{
+				$.ajax({
+					url:"api/user_exists.php?userid="+userid,
+					type: 'GET',
+					dataType: 'json',
+					
+					success: function(data){
+						callback(data);
+					}
+				});			
+			}
+
+			function bid()
+			{
+				$("#preloader").show();		
+				$("#error-box").hide();
+
+				var userid = $("#bid-userid").val();
+				var amount = $("#bid-amount").val();
+				console.log(amount);
+
+				user_status(userid, function(response){
+					if(response['status'] == 200)
+					{
+						// Ajax call bid
+						$.ajax({
+							url:"api/do_bid.php",
+							data: {'userid':userid, 'itemid':itemid, 'amount':amount},
+							type: 'GET',
+							dataType: 'json',
+							
+							success: function(response){
+								if(response['status']==200)
+								{
+									// Hide everything and show success
+									$("#preloader").hide();
+									$("#success-box").show();
+									$("#bid-form").hide();
+								}
+								else
+								{
+									$("#error-box").html(response['message']);
+									$("#error-box").show();
+									$("#preloader").hide();
+								}
+							},
+		
+							fail : function(){
+								$("#error-box").html("Server error. Try again later");
+								$("#error-box").show();
+								$("#preloader").hide();
+							}
+						});		
+					}
+					else
+					{
+						$("#userid-group").addClass("has-error");	
+						$("#help-bid-userid").html(response['message']);
+						$("#preloader").hide();
+					}
+				});
+			}
 		
 			$(document).ready(function(){
 				$("#bidders-also-bid").masonry({
-						columnWidth:180,
-						itemSelector:".pin"
-					});	
+					columnWidth:180,
+					itemSelector:".pin"
+				});	
 
 				$("#other-items").masonry({
-						columnWidth:180,
-						itemSelector:".pin"
-					});	
+					columnWidth:180,
+					itemSelector:".pin"
+				});	
 
-	
+
 				$("#recent-bidders").masonry({
-						columnWidth:180,
-						itemSelector:".pin"
-					});	
-		
-				$(".slider").slider({
-					min:<?php echo $currently+0.5; ?>,
-					max:<?php echo isset($buy_price)?$buy_price:$currently+100; ?>,
-					step:0.5,
+					columnWidth:180,
+					itemSelector:".pin"
+				});	
+	
+				var slider = $(".slider").slider({
+					min:slider_min,
+					max:slider_max,
+					step:1,
 					tooltip:'hide'
-				}).on('slide', function(ev) { 
-					$("#bid-amount").val(ev.value);
-				});
-			})
+				})
 
-		
-			// Form validation
-			
+				slider.slider().on('slide', function(ev) { 
+					$("#bid-amount").val(ev.value);
+					set_amount_state();
+				});
+
+				// Form validation
+				// Amount
+				$("#bid-amount").change(function(){
+					});
+
+				$("#bid-amount").keyup(function() {
+					slider.slider('setValue', $(this).val());
+					set_amount_state();	
+				});
+
+				// userid
+				$("#bid-userid").focus(function(){
+					$("#userid-group").removeClass("has-error");
+					$("#help-bid-userid").html("");
+				});
+			});
+
 		</script>
 
 		<style>
@@ -244,7 +365,7 @@
 			<h4 class="modal-title" id="bidModalLabel">Bid Now!</h4>
 		      </div>
 		      <div class="modal-body">
-				<form class="form-horizontal" role="form">
+				<form class="form-horizontal" role="form" id="bid-form">
 					<div class="form-group">
 						<label for="userid" class="col-sm-2 control-label">Item ID</label>	
 							<div class="col-sm-10">
@@ -252,7 +373,7 @@
 							</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="userid-group">
 						<label for="userid" class="col-sm-2 control-label">User ID</label>	
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="bid-userid" placeholder="Enter UserID" />
@@ -260,29 +381,47 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" id="amount-group"><!--Amount group begins-->
 						<label for="userid" class="col-sm-2 control-label">Amount</label>	
 						<div class="col-sm-10">
 							<div class="row"><!--slider row-->
 								<div class="col-sm-7">
 									<div class="form-control-plain">
-										<b><?php echo $slider_min ?></b><div class="slider slider-horizontal" style="width:160px;" id="amount-slider"></div><b><?php echo $slider_max ?></b>
-									</div>
+										<b><?php echo $slider_min ?></b><div class="slider slider-horizontal" style="width:160px;" id="amount-slider"></div><b><?php echo $slider_max ?></b>									</div>
 								</div>
 				
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="bid-amount" placeholder="Amount" />
-									<p class="help-block" id="help-bid-amount"></p>
+									<input type="number" class="form-control" id="bid-amount" placeholder="Amount" value=<?php echo $slider_min ?> />
 								</div>
 							</div><!--slider row ends-->
-
+	
+							<div class="row"> <!--help text row-->
+								<div class="col-md-12">
+									<p class="help-block">
+											<?php 
+												if(!isset($buy_price))
+												{
+													echo 'No buy price. Bid any value above <i class="icon-dollar"> 10</i>';
+												}
+												else
+												{
+													echo 'Win this auction by bidding <i class="icon-dollar">'.$buy_price.'</i>';
+												}
+											?>
+										</p>
+										<p class="help-block" id="help-bid-amount"></p>
+								</div>
+							</div><!--help text row ends-->
 						</div>
-					</div>
+					</div><!--Amount-group ends-->
 				</form>
+				<div class="alert alert-danger" style="display:none;" id="error-box"> Error!</div>
+				<div class="alert alert-success" style="display:none;" id="success-box"> Thank you! Your bid has been recorded! Please <a href="item.php?itemid=<?php echo $itemid ?>"> refresh </a> the page to find yourself in the recent bidders. </div>
 		      </div>
 		      <div class="modal-footer">
+			<img src="assets/img/preloader.gif" id="preloader" style="display:none;" />	
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-success">Bid!</button>
+			<button type="button" class="btn btn-success" id="bid-button" onclick="bid();">Bid!</button>
 		      </div>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
