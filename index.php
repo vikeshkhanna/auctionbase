@@ -25,6 +25,12 @@
 					columnWidth:185,
 					itemSelector:".pin"
 				});
+
+				$("#hottest-auctions").masonry({ 
+					columnWidth:185,
+					itemSelector:".pin"
+				});
+
 			})
 		</script>
 
@@ -100,7 +106,7 @@
 	<div class="container">
 		<div class="row">
 			<!--First column-->
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<!--Recent Bidders-->
 				<div class="row heading-hr heading-hr-mild">
 					<div class="col-md-1">
@@ -108,7 +114,7 @@
 					</div>
 
 					<div class="col-md-3 auto-col">
-						<h1>Recent Auctions</h1>	
+						<h1><i class="icon-clock"></i> Recent Auctions</h1>	
 					</div>
 				
 					<div class="col-md-12">
@@ -122,7 +128,7 @@
 					<?php 
 						$db = get_db_handle();
 						$db->beginTransaction();
-						$com1 = "SELECT *, (select now from time) now from item order by julianday(now) - julianday(started) limit 8;";
+						$com1 = "SELECT *, (select now from time) now from item where julianday(started) < julianday(now) order by julianday(now) - julianday(started) limit 12;";
 						$result = $db->prepare($com1);
 						$result->execute();
 						$items = $result->fetchAll();
@@ -133,25 +139,43 @@
 					</div><!--recent-->
 				</div><!--panel-->
 			</div><!--col-->
-			
-			<!--Second column-->
-			<div class="col-md-3">
-					<div class="row heading-hr heading-hr-mild">
-						<div class="col-md-2">
-							<hr />
-						</div>
+		</div><!--row-->
 
-						<div class="col-md-3 auto-col">
-							<h1>Start Selling</h1>	
-						</div>
-					
-						<div class="col-md-12">
-							<hr />
-						</div>
+		<div class="row">
+			<!--First column-->
+			<div class="col-md-12">
+				<!--Hottest Auctions-->
+				<div class="row heading-hr heading-hr-mild">
+					<div class="col-md-1">
+						<hr />
 					</div>
 
+					<div class="col-md-3 auto-col">
+						<h1>Hottest Auctions</h1>	
+					</div>
+				
+					<div class="col-md-12">
+						<hr />
+					</div>
 				</div>
-			</div>
+
+				<div class="hottesh-auctions-panel">
+					<!--recent auctions-->
+					<div id="hottest-auctions">
+					<?php 
+						$db = get_db_handle();
+						$db->beginTransaction();
+						$com1 = "SELECT *, (select now from time) now from item where julianday(started) < julianday(now) order by number_of_bids desc limit 12;";
+						$result = $db->prepare($com1);
+						$result->execute();
+						$items = $result->fetchAll();
+						$db->commit();
+						echo build_pins($items);
+					?>
+		
+					</div><!--recent-->
+				</div><!--panel-->
+			</div><!--col-->
 		</div><!--row-->
 	</div> <!--container-->
 
