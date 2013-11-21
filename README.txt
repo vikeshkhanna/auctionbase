@@ -23,3 +23,5 @@ Extra functionality:
 2. The items page shows lots of stastics, like number of bids, current bid, other items from seller, similar items, number of likes (all zero for now).
 3. The user page shows stats of a user, like number of auctions, number of bids, highest bid. It also lists all the auctions and bids they have participated in.
 4. The search page is highly optimized and user-friendly. It supports pagination with AJAX-based fetching, sorting by three ways (Popularity, price - low to high, price - high to low), filtering based on price, buy price, status etc. It also supports category zoom-in. Clickin on a category with only load items from that category. 
+
+Note: User and product images have been obtained through public Ebay, Flickr and Instagram APIs. They may not be representative of the products they appear with (although keyword search was performed - many keyword searches gave nothing for Ebay and Flickr, so I fetched a random popular image from instagram). 

@@ -49,13 +49,11 @@
 					//reset 
 					restart();
 					get_lim();
-					get_cat();
 				});
 	
 				$("#sort-by").change( function() {
 					restart();
 					get_lim();
-					get_cat();
 				});
 		
 
