@@ -104,11 +104,11 @@
 		<div class="navbar-collapse collapse nav-lower">
 		  <div class="container">
 			  <ul class="nav navbar-nav">
-				<li><a href="search.php/?q=electronics">Electronics</a></li>
-				<li><a href="search.php/?q=men">Men</a></li>
-				<li><a href="search.php/?q=women">Women</a></li>
-				<li><a href="search.php/?q=toys">Toys</a></li>
-				<li><a href="search.php/?q=music">Music</a></li>
+				<li><a href="search.php?q=electronics">Electronics</a></li>
+				<li><a href="search.php?q=men">Men</a></li>
+				<li><a href="search.php?q=women">Women</a></li>
+				<li><a href="search.php?q=toys">Toys</a></li>
+				<li><a href="search.php?q=music">Music</a></li>
 			  </ul>
 		  </div>
 		</div>
