@@ -59,6 +59,12 @@ a.filter-name.collapse-trigger:hover
 	text-decoration:none;
 }
 
+.collapse-container li a.active
+{
+	background-color:black;
+	color:white;
+}
+
 .slider
 {
 	width:100%;
@@ -113,3 +119,5 @@ a.filter-name.collapse-trigger.loader:hover
 {
 	background-color:#DDD;
 }
+
+

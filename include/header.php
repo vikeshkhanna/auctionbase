@@ -21,8 +21,8 @@
 				var val = $("#date-picker").val();
 				var new_time = new Date(val);
 
-				var options = {'yyyy': new_time.getFullYear(), 'MM': new_time.getMonth() + 1, 'dd': new_time.getDate(), 'HH': new_time.getHours(), 
-							'mm' : new_time.getMinutes(), 'ss': new_time.getSeconds()};
+				var options = {'yyyy': new_time.getUTCFullYear(), 'MM': new_time.getUTCMonth() + 1, 'dd': new_time.getUTCDate(), 'HH': new_time.getUTCHours(), 'mm' : new_time.getUTCMinutes(), 'ss': new_time.getUTCSeconds()};
+
 				$("#time-preloader").show();
 				$("#time-machine-update").addClass('disabled');
 

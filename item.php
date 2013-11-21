@@ -244,6 +244,20 @@
 					<p><?php echo $description ?></p>
 					</div>
 				</div>
+
+				<div class="category-container" style="margin-top:10px;">
+					<h4>Categories</h4> <br />
+						<?php
+							$categories = get_categories($itemid);
+							
+							foreach($categories as $category)
+							{	
+								$cat = $category['Category'];
+								echo "<a href='search.php?q=".urlencode($cat)."'>".$cat."</a>";
+							}
+						?>
+
+				</div>
 			</div><!--desc column end-->
 			
 			<div class="col-md-3"><!--seller-->

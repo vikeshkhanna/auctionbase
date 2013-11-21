@@ -18,6 +18,9 @@
 
 	$mode = $_GET['mode'];
 	$mode = !isset($mode) ? 'lim' : $mode;
+
+	$hardcat = $_GET['hardcat'];
+	$hardcat = !isset($hardcat) ? 0 : $hardcat;
 	
 	$length = 10;
 	$low = ($page - 1)*$length;
@@ -76,7 +79,7 @@
 	}
 
 	$dbq = '%'.$q.'%';
-	$dbcat = '%'.$qcategory.'%';
+	$dbcat = "%".$qcategory."%";
 
 	$replace = array();
 	$conditions = array();
@@ -134,8 +137,16 @@
 
 	if(isset($qcategory) && !empty($qcategory))
 	{
-		array_push($conditions, 'category like :dbcat');
+		$op = 'like';
 		$replace[':dbcat'] = $dbcat;	
+
+		if($hardcat == 1)
+		{
+			$op = '=';
+			$replace[':dbcat'] = $qcategory;
+		}
+
+		array_push($conditions, "upper(category) ".$op." upper(:dbcat)");
 	}
 	
 	$where = implode(' AND ', $conditions);
@@ -152,7 +163,7 @@
 		$query = "SELECT * from item, itemcategory WHERE item.itemid = itemcategory.itemid and ".$where." ORDER BY ".$order;
 	}
 
-	//echo $query;
+	// echo $query;
 	//print_r($replace);
 	try
 	{

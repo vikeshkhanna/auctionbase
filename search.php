@@ -31,6 +31,7 @@
 		<script>
 			var q = "<?php echo $q; ?>";
 			var category = "<?php echo $category; ?>";
+			var cur_cat = null;
 
 			var page=1;
 			var first = true;
@@ -57,6 +58,7 @@
 					get_cat();
 				});
 		
+
 				init();
 			});
 		

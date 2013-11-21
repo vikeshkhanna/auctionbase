@@ -92,3 +92,20 @@
 	font-size:12px;
 	color:#777;
 }
+
+.category-container
+{
+	padding:10px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.category-container a
+{
+	margin-right:10px;
+	background-color:black;
+	color:white;
+	font-family:"Arial";
+	padding:10px;
+	display:block-inline;
+}

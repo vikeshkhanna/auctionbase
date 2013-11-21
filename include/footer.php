@@ -6,6 +6,7 @@
         background-color: rgba(0,0,0,0.9);
 	padding:10px;
 	color:white;
+	margin-top:10px;
       }
 
 </style> 

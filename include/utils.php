@@ -108,6 +108,7 @@ function get_item($itemid)
 	$result->execute(array(":itemid"=>$itemid));
 	$result = $result->fetch();
 	$db->commit();
+	$db=null;
 	return $result;
 }
 
@@ -119,10 +120,12 @@ function get_categories($itemid)
 	$comm = "SELECT * from itemcategory where  itemid=:itemid";
 	$result = $db->prepare($comm);
 	$result->execute(array(":itemid"=>$itemid));
-	$result = $result->fetch();
+	$result = $result->fetchAll();
 	$db->commit();
+	$db=null;
 	return $result;
 }
+
 
 function is_auction_open($item, $time)
 {
@@ -131,7 +134,7 @@ function is_auction_open($item, $time)
 	$buy_price = $item['Buy_Price'];
 	$currently = $item['Currently'];
 
-	return ($started < $time && $ends > $time && (!isset($buy_price) || $currently < $buy_price));
+	return (strtotime($started) < strtotime($time) && strtotime($ends) > strtotime($time) && (!isset($buy_price) || $currently < $buy_price));
 }
 
 // Get the users who like an item

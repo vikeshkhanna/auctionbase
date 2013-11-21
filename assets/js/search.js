@@ -71,7 +71,16 @@ function init_sliders()
 
 function get_search_options()
 {
-	searchOptions = {'q':q, 'category': category, 'page':page};
+	searchOptions = {'q':q, 'page':page};
+
+	if(cur_cat!=null)
+	{
+		searchOptions['hardcat'] = 1;
+		category = cur_cat.attr("id").replace("&", "&amp;");
+	}
+
+	searchOptions['category'] = category;
+
 	var min_price = $("#min-price").val();
 	var max_price = $("#max-price").val();
 	
@@ -173,7 +182,7 @@ function get_cat()
 				for(var category in categories)
 				{
 					var count = categories[category];
-					var html = '<li><a href="{0}">{1} ({2})</a></li>'.format("#", category, count);
+					var html = '<li><a id="{0}">{0} ({1})</a></li>'.format(category, count);
 					ul.append(html);
 				}	
 
@@ -181,5 +190,29 @@ function get_cat()
 			}
 
 			$("#categories-preloader").hide();
+	
+			$("#category-container a").click(function() {
+				var cat = $(this);
+
+				if(cur_cat == null)
+				{
+					cur_cat = cat;
+					cur_cat.addClass('active');
+				}
+				else if(cur_cat == cat)
+				{
+					cur_cat.removeClass('active');	
+					cur_cat = null;
+				}	
+				else
+				{
+					cur_cat.removeClass('active')
+					cur_cat = cat;
+					cur_cat.addClass('active');
+				}
+	
+				restart();
+				get_lim();
+			});
 		});	
 }
