@@ -4,6 +4,23 @@
 #quick #dirty
 */
 
+
+// Check if a file exists on a remote server - Submission hook
+function is_url_exist($url){
+    $ch = curl_init($url);    
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if($code == 200){
+       $status = true;
+    }else{
+      $status = false;
+    }
+    curl_close($ch);
+   return $status;
+}
+
 function get_image($root, $suffix, $id)
 {
 	$image = $root.$id.".jpg";
@@ -37,19 +54,48 @@ function get_time()
 // Get the image of the item from the ID
 function get_item_image($itemid)
 {
+	/*
 	$curdir = dirname(__FILE__);
 	$suffix = "metadata/items/";
 	$root = $curdir."/../".$suffix;
 	return get_image($root, $suffix, $itemid);
+	*/
+
+	// hook
+
+	$root='http://stanford.edu/~vikesh/cgi-bin/auctionbase/metadata/items/';
+	$real = $root.$itemid.'.jpg';
+	$default = $root.'default.jpg';
+	
+	if(is_url_exist($real))
+	{
+		return $real;
+	}
+
+	return $default;
 }
 
 // Get the image of a user from the ID
 function get_user_image($userid)
 {
+	/*
 	$curdir = dirname(__FILE__);
 	$suffix = "metadata/users/";
 	$root = $curdir."/../".$suffix;
 	return get_image($root, $suffix, $userid);
+	*/
+
+	// hook
+	$root='http://stanford.edu/~vikesh/cgi-bin/auctionbase/metadata/users/';
+	$real = $root.$userid.'.jpg';
+	$default = $root.'default.jpg';
+
+	if(is_url_exist($real))
+	{
+		return $real;
+	}
+
+	return $default;
 }
 
 // Get the item object from the itemid
@@ -188,11 +234,12 @@ function build_pins($items)
 					
 					# Get the number of bids
 					$pinStatus = is_auction_open($item, $time) ? "open" : "closed";
-					$image = get_item_image($itemid);
+					$item_image = get_item_image($itemid);
+					$seller_image = get_user_image($seller);
 					$countLikes = count(get_likes($itemid));
 
 					$html = $html.'<div class="thumbnail pin">
-						      <img src="'.$image.'" alt="..." />
+						      <img src="'.$item_image.'" alt="..." />
 							<div class="pin-status '.$pinStatus.' ">'.ucfirst($pinStatus).'</div>
 							<div class="pin-container">
 								<div class="pin-stats">
@@ -207,7 +254,7 @@ function build_pins($items)
 								</div>
 					
 							      <a class="pin-user" href=user.php?userid='.$seller.'>
-								 <img src="metadata/users/'.$seller.'.jpg" />
+								 <img src="'.$seller_image.'" />
 								 <span>'.$seller.'</span>
 							      </a>
 							</div>
@@ -224,7 +271,8 @@ function build_item_bid_pin($bid)
 	$date = $bid['Time'];
 	$userid = $bid['UserID'];
 	$itemid = $bid['ItemID'];
-	$name = get_item($itemid);
+	$item = get_item($itemid);
+	$name = $item['Name'];
 
 	$item_image = get_item_image($itemid);
 	$user_image = get_user_image($userid);
@@ -237,7 +285,7 @@ function build_item_bid_pin($bid)
 				<div class="bid-stats mild">'.format_date($date).'</div>
 				<a class="pin-user" href="user.php?userid='.$userid.'">
 					 <img src="'.$user_image.'">
-					 <span>'.$user.'</span>
+					 <span>'.$userid.'</span>
 			      </a>
 			</div>
 		</div>';
@@ -276,6 +324,18 @@ function build_user_bid_pins($bids)
 	foreach($bids as $bid)
 	{
 		$html = $html.build_user_bid_pin($bid);
+	}
+	
+	return $html;
+}
+
+function build_item_bid_pins($bids)
+{
+	$html = "";
+
+	foreach($bids as $bid)
+	{
+		$html = $html.build_item_bid_pin($bid);
 	}
 	
 	return $html;

@@ -1,0 +1,10 @@
+.user-stats
+{
+	text-align: center;
+	background-color: rgb(32, 21, 21);
+	padding: 5px;
+	margin: 10px;
+	color: white;
+	font-size: 16px;
+	border-radius: 4px;
+}

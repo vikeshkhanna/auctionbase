@@ -1,0 +1,115 @@
+.filter-col
+{
+	padding:0px;
+}
+
+.filter
+{
+	border-right:1px dashed #777;
+}
+
+.filter hr
+{
+	border:1px dashed #777;
+}
+
+a.filter-name
+{
+	padding:10px;
+	font-size:14px;
+	font-weight:bold;
+	display:block;
+	color:black;
+}
+
+a.filter-name.collapse-trigger
+{
+	cursor:pointer;
+}
+
+a.filter-name:hover
+{
+	text-decoration:none;
+}
+
+a.filter-name.collapse-trigger:hover
+{
+	background-color:#EEE;
+}
+
+.filter-container
+{
+	padding:10px;
+}
+
+.collapse-container ul
+{
+	list-style:none;
+}
+
+.collapse-container li a
+{
+	display:block;
+	padding: 5px;
+}
+
+.collapse-container li a:hover
+{
+	background-color:#EEE;
+	text-decoration:none;
+}
+
+.slider
+{
+	width:100%;
+}
+
+.input-holder
+{
+	margin-top:10px;
+}
+
+.input-holder input
+{
+	width:50px;
+}
+
+.filter hr
+{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.filter-footer
+{
+	margin-top:20px;
+}
+
+#sort-by
+{
+	color:#777;
+}
+
+#sort-by select
+{
+	margin-left:10px;
+}
+
+.result-container
+{
+	padding:15px 10px 10px 5px;
+}
+
+a.filter-name.collapse-trigger.loader
+{
+	text-align:center;
+	background-color:#EEE;
+	color:blue;
+	border-radius:5px;
+	margin-top:15px;
+}
+
+a.filter-name.collapse-trigger.loader:hover
+{
+	background-color:#DDD;
+}

@@ -32,22 +32,22 @@
 			<?php
 				if(empty($result))
 				{
-					echo '<h1>No winner</h1>';
+					echo '<h1 style="margin-bottom:10px;">No winner</h1><div class="label label-danger status">'.format_date($started).'</div>';
 				}
 				else
 				{
-							echo '<h1><a href="user.php?userid='.$winner.'">'.$winner.'</a></h1><br />
+							echo '<h1><a href="user.php?userid='.$winner.'">'.$winner.'</a></h1> <br />
 							<div class="stats-2">
 							<i class="icon-dollar">'.$amount.'</i>
 							<span>Win amount</span>';
 					
 							if(isset($buy_price))
 							{
-								echo '<i class="icon-dollar"> 23</i>
+								echo ' / <i class="icon-dollar">'.$buy_price.'</i>
 								      <span>Buy Price</span>';
 							}
 		
-							echo "</div>";
+							echo ' <div class="label label-danger status">'.format_date($started).'</div></div>';
 					}
 				?>
 		</div><!--End col-->

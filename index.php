@@ -61,8 +61,8 @@
           <img src="assets/img/sean.jpg" alt="Led Zeppelin">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Going down now!</h1>
-              <p>It's a celebration day. We've got <strong>93</strong> music items on sale.</p>
+              <h1>Fall Collection!</h1>
+              <p>You've looked this good before!</p>
               <p><a class="btn btn-danger" href="#" role="button">Browse Men's apparel</a></p>
             </div>
           </div>

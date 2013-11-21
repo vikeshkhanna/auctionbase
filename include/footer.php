@@ -13,5 +13,7 @@
 <div id="footer">
       <div class="container">
       	AuctionBase &copy; 2013 <sub>(Ha! Not really!)</sub>
+	<div style="float:right">Current Time: <?php $time = get_time();
+	echo format_date($time); ?></div>
       </div>
 </div>
