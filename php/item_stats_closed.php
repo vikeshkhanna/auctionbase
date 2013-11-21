@@ -32,7 +32,8 @@
 			<?php
 				if(empty($result))
 				{
-					echo '<h1 style="margin-bottom:10px;">No winner</h1><div class="label label-danger status">'.format_date($started).'</div>';
+					echo '<h1 style="margin-bottom:10px;">No winner</h1>
+						<div class="label label-danger status">'.format_date($started).'</div> to <div class="label label-danger status">'.format_date($ends).'</div>';
 				}
 				else
 				{
@@ -46,8 +47,8 @@
 								echo ' / <i class="icon-dollar">'.$buy_price.'</i>
 								      <span>Buy Price</span>';
 							}
-		
-							echo ' <div class="label label-danger status">'.format_date($started).'</div></div>';
+	
+							echo ' <div class="label label-danger status">'.format_date($started).'</div><span> to </span><div class="label label-danger status">'.format_date($ends).'</div></div>';
 					}
 				?>
 		</div><!--End col-->
