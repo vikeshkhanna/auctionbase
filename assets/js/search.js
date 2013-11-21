@@ -76,7 +76,7 @@ function get_search_options()
 	if(cur_cat!=null)
 	{
 		searchOptions['hardcat'] = 1;
-		category = cur_cat.attr("id").replace("&", "&amp;");
+		category = cur_cat.getAttribute("id").replace("&", "&amp;");
 	}
 
 	searchOptions['category'] = category;
@@ -196,19 +196,19 @@ function get_cat()
 
 				if(cur_cat == null)
 				{
-					cur_cat = cat;
-					cur_cat.addClass('active');
+					cur_cat = cat[0];
+					cat.addClass('active');
 				}
-				else if(cur_cat == cat)
+				else if(cur_cat == cat[0])
 				{
-					cur_cat.removeClass('active');	
+					$(cur_cat).removeClass('active');	
 					cur_cat = null;
 				}	
 				else
 				{
-					cur_cat.removeClass('active')
-					cur_cat = cat;
-					cur_cat.addClass('active');
+					$(cur_cat).removeClass('active')
+					cur_cat = cat[0];
+					cat.addClass('active');
 				}
 	
 				restart();
