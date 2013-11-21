@@ -1,4 +1,13 @@
 	<script>
+		function sanitize(num)
+		{
+			if(num < 10)
+			{
+				return '0' + num;
+			}
+			
+			return num;
+		}
 
 		$(document).ready(function(){
 			$("#search-button").click(function(){
@@ -21,7 +30,7 @@
 				var val = $("#date-picker").val();
 				var new_time = new Date(val);
 
-				var options = {'yyyy': new_time.getUTCFullYear(), 'MM': new_time.getUTCMonth() + 1, 'dd': new_time.getUTCDate(), 'HH': new_time.getUTCHours(), 'mm' : new_time.getUTCMinutes(), 'ss': new_time.getUTCSeconds()};
+				var options = {'yyyy': sanitize(new_time.getUTCFullYear()), 'MM': sanitize(new_time.getUTCMonth() + 1), 'dd': sanitize(new_time.getUTCDate()), 'HH': sanitize(new_time.getUTCHours()), 'mm' : sanitize(new_time.getUTCMinutes()), 'ss': sanitize(new_time.getUTCSeconds())};
 
 				$("#time-preloader").show();
 				$("#time-machine-update").addClass('disabled');
