@@ -123,9 +123,12 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title" id="myModalLabel">Update Current Time</h4>
 	      </div>
-		      <div class="modal-body" style='text-align:center'>
+		      <div class="modal-body">
 			<form class="form" role="form">
-				<input class="form-control" type="datetime-local" id="date-picker" />
+				<div class="form-group">
+					<input class="form-control" type="datetime-local" id="date-picker" />
+					<p class="help-block">Current time: <?php echo format_date(get_time()); ?></p>
+				</div>
 			</form>
 
 			<div class="alert alert-success" style="display:none;" id="time-machine-success-box"> Thank you! The time has been updated. Please refresh the page to see changes. </div>

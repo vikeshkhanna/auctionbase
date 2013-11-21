@@ -5,13 +5,7 @@
 			$itemid = $_GET['itemid'];
 			$item = get_item($itemid);
 	
-			if(empty($item))
-			{ 
-				echo '<div class="bs bs-callout bs-callout-danger">
-					<div class="alert alert-danger">This item does not exist.</div>
-				      </div>';
-			}
-			else
+			if(!empty($item))
 			{
 				// Item variables
 				$name = $item['Name'];
@@ -32,7 +26,7 @@
 				$number_of_bids = $item['Number_of_Bids'];
 				$likers = get_likes($itemid);
 				$buy_price = $item['Buy_Price'];
-				
+
 				// Progress bar variables
 				$progress = perc_diff($time, $started, $ends); 
 				$progress_status = $progress>75 ? "danger" : "success";
@@ -46,7 +40,7 @@
 
 <html>
 	<head>
-		<title>Tea set!</title>
+		<title><?php echo $name ?></title>
 		
 		 <!-- Bootstrap core CSS -->
 		 <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -64,12 +58,12 @@
 		<script src="assets/slider/js/bootstrap-slider.js"></script>
 
 		<script>
-
-			var slider_min = <?php echo $slider_min; ?>;
-			var slider_max =  <?php echo $slider_max; ?>; 
-			var currently = <?php echo $currently; ?>;
+			
+			var slider_min = <?php echo (!isset($slider_min) ? 0 : $slider_min); ?>;
+			var slider_max =  <?php echo (!isset($slider_max) ? 0 : $slider_max); ?>; 
+			var currently = <?php echo (!isset($currently) ? 0 : $currently); ?>;
 			var buy_price = <?php echo (isset($buy_price) ? $buy_price : -1); ?>;
-			var itemid = <?php echo $itemid ?>;
+			var itemid = <?php echo (!isset($itemid) ? 0 : $itemid);  ?>;
 
 			function get_amount_error()
 			{
@@ -126,7 +120,6 @@
 
 				var userid = $("#bid-userid").val();
 				var amount = $("#bid-amount").val();
-				console.log(amount);
 
 				user_status(userid, function(response){
 					if(response['status'] == 200)
@@ -234,6 +227,12 @@
 			{
 						include("php/item_stats.php");
 			}	
+			else
+			{
+				echo '<div class="bs bs-callout bs-callout-danger">
+					<div class="alert alert-danger">This item does not exist.</div>
+				      </div>';
+			}
 		?>
 		
 		<!--Desc and seller-->
@@ -401,7 +400,7 @@
 											<?php 
 												if(!isset($buy_price))
 												{
-													echo 'No buy price. Bid any value above <i class="icon-dollar"> 10</i>';
+													echo 'No buy price. Bid any value above <i class="icon-dollar">'.$currently.'</i>';
 												}
 												else
 												{

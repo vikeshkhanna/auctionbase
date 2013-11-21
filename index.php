@@ -52,7 +52,7 @@
             <div class="carousel-caption">
               <h1>Women's apparel</h1>
               <p>Premium fashion products up for sale at AuctionBase</p>
-              <p><a class="btn btn-danger" href="#" role="button">Browse Women's apparel</a></p>
+              <p><a class="btn btn-danger" href="search.php?category=women" role="button">Browse Women's apparel</a></p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="carousel-caption">
               <h1>Fall Collection!</h1>
               <p>You've looked this good before!</p>
-              <p><a class="btn btn-danger" href="#" role="button">Browse Men's apparel</a></p>
+              <p><a class="btn btn-danger" href="search.php?category=men" role="button">Browse Men's apparel</a></p>
             </div>
           </div>
 	</div>
@@ -76,7 +76,7 @@
             <div class="carousel-caption">
               <h1>All your superheroes!</h1>
               <p>The occassion calls for a champagne. You bet we have it!</p>
-              <p><a class="btn btn-danger" href="#" role="button">Browse superhero collection</a></p>
+              <p><a class="btn btn-danger" href="search.php?category=superhero" role="button">Browse superhero collection</a></p>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
             <div class="carousel-caption">
               <h1>It is the best of times!</h1>
               <p>Keep the time with the latest timepieces on sale at AuctionBase.</p>
-              <p><a class="btn btn-danger" href="#" role="button">Browse Others</a></p>
+              <p><a class="btn btn-danger" href="search.php?category=other" role="button">Browse Others</a></p>
             </div>
           </div>
         </div>

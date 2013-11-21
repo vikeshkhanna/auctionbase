@@ -3,6 +3,7 @@
 
 <?php
 	$q = $_GET['q'];
+	$category = $_GET['category'];
 ?>
 
 <html>
@@ -22,56 +23,56 @@
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 		<script src="assets/bootstrap/js/bootstrap.js"></script>
 		<script src="assets/js/search.js"></script>
+		<script src="assets/js/main.js"></script>
 		<script src="assets/masonry/masonry.pkgd.min.js"></script>
+		<script src="assets/masonry/jquery.masonry.ordered.js"></script>
 		<script src="assets/slider/js/bootstrap-slider.js"></script>
 
 		<script>
 			var q = "<?php echo $q; ?>";
-			
+			var category = "<?php echo $category; ?>";
+
+			var page=1;
+			var first = true;
+	
 			$(document).ready(function(){
-				$('#search-results').masonry({ 
-					columnWidth:185,
-					itemSelector:".pin"
-				});
-				
+				$("#block-modal").modal();
 				$(".collapse").collapse();
 
-				var price_slider = $("#price-slider").slider({
-					min:0,
-					max:100,
-					step:1,
-					value:[1,100],
-					tooltip:'show'
+				$("#loader").click(function(){
+					page = page + 1;
+					get_lim();
 				});
 
-
-				var buy_price_slider = $("#buy-price-slider").slider({
-					min:0,
-					max:100,
-					step:1,
-					value:[1,100],
-					tooltip:'show'
+				$("#refine").click(function(){
+					//reset 
+					restart();
+					get_lim();
+					get_cat();
 				});
-
+	
+				$("#sort-by").change( function() {
+					restart();
+					get_lim();
+					get_cat();
+				});
+		
 				init();
 			});
+		
+			function restart()
+			{
+				page = 1;
+				first = true;	
+				$("#results").empty();
+				$("#results").masonry("destroy");
+			}
 
 			function init()
 			{
-				// Show modal and block page
-				search({"q":q}, function(response){
-				 	console.log(response);
-					var categories = response['categories'];
-					var ul = $("#category-container ul");
-			
-					for(var category in categories)
-					{
-						var count = categories[category];
-						var html = '<li><a href="{0}">{1} ({2})</a></li>'.format("#", category, count);
-						ul.append(html);
-					}	
-					// Update categories collapse
-				});
+				init_sliders();
+				get_lim();
+				get_cat();
 			}
 
 		</script>
@@ -110,7 +111,7 @@
 							<!--Categories-->
 							<div id="categories" class="filter-type">
 								<a class="filter-name collapse-trigger" data-toggle="collapse" data-target="#category-container">
-									<i class="icon-chevron-right"></i> Categories
+									<i class="icon-chevron-right"></i> Categories <img src="assets/img/preloader.gif" id="categories-preloader" />
 								</a>
 								 
 								<div id="category-container" class="collapse in collapse-container"> 
@@ -128,7 +129,7 @@
 								<div id="price-container" class="filter-container">
 									<b>1</b><div class="slider slider-horizontal" id="price-slider"></div><b>100</b>
 									<div class="input-holder">
-										<input type="text" id="min-price" /> to <input type="text" id="max-price" />
+										<input type="text" id="min-price" /> to <input type="text" id="max-price" /> <a id="price-trash"><i class="icon-trash"></i></a>
 									</div>
 								</div>
 							</div><!--Price end-->
@@ -139,8 +140,8 @@
 							<div id="status" class="filter-type">
 								<a class="filter-name">Status</a>
 								<div class="input-holder">
-									<input type="checkbox" name="status" value="1" /> Open 
-									<input type="checkbox" name="status" value="0" /> Closed
+									<input type="checkbox" name="status" id="status-open" value="1" /> Open 
+									<input type="checkbox" name="status" id="status-closed" value="0" /> Closed
 								</div>
 							</div><!--status end-->
 
@@ -152,12 +153,12 @@
 								<div id="buy-price-container" class="filter-container">
 									<b>1</b><div class="slider slider-horizontal" id="buy-price-slider"></div><b>100</b>
 									<div class="input-holder">
-											<input type="text" id="min-buy-price" /> to <input type="text" id="max-buy-price" />								   </div>
+											<input type="text" id="min-buy-price" /> to <input type="text" id="max-buy-price" /> <a id="buy-price-trash"><i class="icon-trash"></i></a>								   </div>
 								</div>
 							</div><!--Buy Price-->
 
 							<div class="filter-footer">
-								<button class="btn btn-lg btn-primary">Refine</button>
+								<button class="btn btn-lg btn-primary" id="refine">Refine</button>
 							</div>
 						</div>
 					</div>
@@ -182,9 +183,9 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<div id="sort-by">
+						<div>
 							Sort by:  
-							<select>
+							<select id="sort-by">
 								<option value="plh">Price - Low to High </option>
 								<option value="phl">Price - High to Low </option>
 								<option value="pop">Popularity </option>
@@ -196,14 +197,30 @@
 				<div class="result-container">
 					<div class="row"><!--Actual results begin-->
 						<div class="col-md-12">
-							hello kitty
+							<div id="results">
+							</div>
 						</div>
 					</div><!--Actual results end-->
+
+					<a class="filter-name collapse-trigger loader" id="loader">Load More </a>
 				</div>
 			</div>
 
 		</div><!--Main row ends-->
 	</div><!--container ends-->
+
+	<div class="modal fade" id="block-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		<h4 class="modal-title" id="myModalLabel">Loading Auctions!</h4>
+	      </div>
+	      <div class="modal-body" style='text-align:center'>
+			<img src="assets/img/preloader.gif" />
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 
 	<?php include("include/footer.php"); ?>
 
