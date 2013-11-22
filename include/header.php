@@ -25,6 +25,18 @@
 				$("#time-modal").modal('show');
 			});
 		
+			$("#goto").click(function(){
+				$("#goto-modal").modal('show');
+			});
+
+			$("#goto-item").click(function() { 
+				window.location = "item.php?itemid=" + encodeURIComponent($("#goto-itemid").val());
+			});
+
+			$("#goto-user").click(function() { 
+				window.location = "user.php?userid=" + encodeURIComponent($("#goto-userid").val());
+			});
+
 			$("#time-machine-update").click(function(){
 
 				var options = {'yyyy': $("#yyyy").val(), 'MM': $("#MM").val(), 'dd': $("#dd").val(), 'HH': $("#HH").val(), 'mm' : $("#mm").val(), "ss": $("#ss").val()};
@@ -91,6 +103,7 @@
 			    </div><!-- /input-group -->	
 			</ul>  
 		  <ul class="nav navbar-nav navbar-right">
+		    <li><a class="header" id="goto">Go To</a></li>
 		    <li><a class="header" id="time-machine">Time Machine</a></li>
 		    <li><a class="header" href="about.php">About</a></li>
 		  </ul>
@@ -133,6 +146,32 @@
 		<img src="assets/img/preloader.gif" id="time-preloader" style="display:none;" />	
 		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 		<button type="button" class="btn btn-success" id="time-machine-update">Update!</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!--Goto modal-->
+	<div class="modal fade" id="goto-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title" id="myModalLabel">Goto</h4>
+	      </div>
+		      <div class="modal-body">
+			<form class="form" role="form">
+				<div class="form-group">
+				  <input type="text" class="form-control" placeholder="ItemID" id="goto-itemid">
+				  <button type="button" id="goto-item" class="btn btn-primary">Go to Item</button>
+				</div>
+
+				<div class="form-group">
+				  <input type="text" class="form-control" placeholder="UserID" id="goto-userid">
+				  <button type="button" id="goto-user" class="btn btn-primary">Go to User</button>
+				</div>
+			</form>
+		      </div>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

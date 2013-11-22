@@ -296,7 +296,7 @@
 					$db = get_db_handle();
 					$db->beginTransaction();
 
-					$comm = "SELECT * from bid where itemid=:itemid order by julianday(Time) desc limit 6";
+					$comm = "SELECT * from bid where itemid=:itemid order by julianday(Time) desc";
 
 					$result = $db->prepare($comm);
 					$result->execute(array(":itemid"=>$itemid));
