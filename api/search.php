@@ -51,7 +51,7 @@
 
 	// 0 - closed, 1-open, 2-all
 	$status = $_GET['status'];
-	$status = empty($status) ? 2: $status;
+	$status = !isset($status) ? 2: $status;
 
 	// Basic validation
 	if(!is_numeric($status) || ($status!=0 && $status!=1 && $status!=2))
@@ -163,7 +163,7 @@
 		$query = "SELECT * from item, itemcategory WHERE item.itemid = itemcategory.itemid and ".$where." ORDER BY ".$order;
 	}
 
-	// echo $query;
+	echo $query;
 	//print_r($replace);
 	try
 	{
