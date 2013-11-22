@@ -163,7 +163,7 @@
 		$query = "SELECT * from item, itemcategory WHERE item.itemid = itemcategory.itemid and ".$where." ORDER BY ".$order;
 	}
 
-	echo $query;
+	//echo $query;
 	//print_r($replace);
 	try
 	{
