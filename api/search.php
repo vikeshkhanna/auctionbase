@@ -135,7 +135,7 @@
 		array_push($conditions, $clause);
 	}
 
-	if(isset($qcategory) && !empty($qcategory))
+	if(isset($qcategory) && !empty($qcategory) && ($hardcat==1 || empty($q)))
 	{
 		$op = 'like';
 		$replace[':dbcat'] = $dbcat;	
@@ -163,7 +163,6 @@
 		$query = "SELECT * from item, itemcategory WHERE item.itemid = itemcategory.itemid and ".$where." ORDER BY ".$order;
 	}
 
-	//echo $query;
 	//print_r($replace);
 	try
 	{

@@ -16,12 +16,12 @@ Closed auctions will show the winners. Open any closed auctions by clicking on t
 Search any item from the top search bar. Input parameters possible - "keyword, price, buy price, status" and any combination of these. 
 
 6. Ability to find an (open or closed) auction based on itemid
-This is usually not a user scenario since they don't deal with IDs. But for the project, you can visit: item.php/?itemid=<itemid>
+Click on "GoTo" at the top right corner and specify the item id (or user id - that feature is also available).
 
 Extra functionality:
 1. Very easy to use interface. 
-2. The items page shows lots of stastics, like number of bids, current bid, other items from seller, similar items, number of likes (all zero for now).
+2. The items page shows lots of stastics, like number of bids, current bid, other items from seller, similar items, number of likes (all zero for now), recent bidders. 
 3. The user page shows stats of a user, like number of auctions, number of bids, highest bid. It also lists all the auctions and bids they have participated in.
-4. The search page is highly optimized and user-friendly. It supports pagination with AJAX-based fetching, sorting by three ways (Popularity, price - low to high, price - high to low), filtering based on price, buy price, status etc. It also supports category zoom-in. Clickin on a category with only load items from that category. 
+4. The search page is highly optimized and user-friendly. It supports pagination with AJAX-based fetching, sorting by three ways (Popularity, price - low to high, price - high to low), filtering based on price, buy price, status etc. It also supports category zoom-in. Clicking on a category with only load items from that category. 
 
 Note: User and product images have been obtained through public Ebay, Flickr and Instagram APIs. They may not be representative of the products they appear with (although keyword search was performed - many keyword searches gave nothing for Ebay and Flickr, so I fetched a random popular image from instagram). 
