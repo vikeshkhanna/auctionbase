@@ -68,7 +68,7 @@
           <div class="container">
             <div class="carousel-caption">
               <h1>Fall Collection!</h1>
-              <p>You've looked this good before!</p>
+              <p>You've never looked this good before!</p>
               <p><a class="btn btn-danger" href="search.php?category=men" role="button">Browse Men's apparel</a></p>
             </div>
           </div>
@@ -81,7 +81,7 @@
           <div class="container">
             <div class="carousel-caption">
               <h1>All your superheroes!</h1>
-              <p>The occassion calls for a champagne. You bet we have it!</p>
+              <p>Batman saves the day!</p>
               <p><a class="btn btn-danger" href="search.php?category=superhero" role="button">Browse superhero collection</a></p>
             </div>
           </div>

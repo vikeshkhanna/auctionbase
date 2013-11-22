@@ -75,6 +75,7 @@
 	width: 180px;
 	text-align: center;
 	padding: 5px;
+	left:15px;
 }
 
 .auction-status.closed
@@ -102,10 +103,10 @@
 
 .category-container a
 {
-	margin-right:10px;
 	background-color:black;
 	color:white;
 	font-family:"Arial";
 	padding:10px;
-	display:block-inline;
+	display:inline-block;
+	margin:5px;
 }

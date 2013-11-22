@@ -27,11 +27,8 @@
 		
 			$("#time-machine-update").click(function(){
 
-				var val = $("#date-picker").val();
-				var new_time = new Date(val);
-
-				var options = {'yyyy': sanitize(new_time.getUTCFullYear()), 'MM': sanitize(new_time.getUTCMonth() + 1), 'dd': sanitize(new_time.getUTCDate()), 'HH': sanitize(new_time.getUTCHours()), 'mm' : sanitize(new_time.getUTCMinutes()), 'ss': sanitize(new_time.getUTCSeconds())};
-
+				var options = {'yyyy': $("#yyyy").val(), 'MM': $("#MM").val(), 'dd': $("#dd").val(), 'HH': $("#HH").val(), 'mm' : $("#mm").val(), "ss": $("#ss").val()};
+				console.log(options);
 				$("#time-preloader").show();
 				$("#time-machine-update").addClass('disabled');
 
@@ -57,17 +54,6 @@
 						$("#time-machine-update").removeClass('disabled');
 					}
 				});		
-			});
-
-			$("#date-picker").change(function(){
-				if($(this).val())
-				{
-					$("#time-machine-update").removeClass('disabled');
-				}
-				else
-				{
-					$("#time-machine-update").addClass('disabled');
-				}
 			});
 		});
 	
@@ -135,18 +121,18 @@
 		      <div class="modal-body">
 			<form class="form" role="form">
 				<div class="form-group">
-					<input class="form-control" type="datetime-local" id="date-picker" />
+					<?php include("php/timetable.html") ?>
 					<p class="help-block">Current time: <?php echo format_date(get_time()); ?></p>
 				</div>
 			</form>
 
-			<div class="alert alert-success" style="display:none;" id="time-machine-success-box"> Thank you! The time has been updated. Please refresh the page to see changes. </div>
+			<div class="alert alert-success" style="display:none;" id="time-machine-success-box"> Thank you! The time has been updated. Please <a onclick="location.reload()">refresh</a> the page to see changes. </div>
 		      </div>
 
 		<div class="modal-footer">
 		<img src="assets/img/preloader.gif" id="time-preloader" style="display:none;" />	
 		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		<button type="button" class="btn btn-success disabled" id="time-machine-update">Update!</button>
+		<button type="button" class="btn btn-success" id="time-machine-update">Update!</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
